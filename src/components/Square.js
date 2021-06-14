@@ -25,19 +25,27 @@ const Highlight = styled.div`
   background-color: yellow;
 `;
 
-function Square({ children, size, pos}) {
+function Square({ children, size, pos, color }) {
   const dispatch = useDispatch();
   const dropFunc = () => {
-    dispatch(canvasActions.moveSource(pos))
-  }
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: 'source',
-    drop: dropFunc,
-    collect: monitor => ({
-      isOver: !!monitor.isOver(),
+    color==='white' && dispatch(canvasActions.moveSource(pos));
+  };
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: "source",
+      drop: dropFunc,
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
     }),
-  }), [pos])
-  return <Div ref={drop} size={size} >{children}{isOver && <Highlight/>}</Div>;
+    [pos]
+  );
+  return (
+    <Div ref={drop} size={size}>
+      {children}
+      {isOver && color === "white" && <Highlight />}
+    </Div>
+  );
 }
 
 export default Square;

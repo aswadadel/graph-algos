@@ -45,6 +45,7 @@ function Board() {
         key={index}
         size={size}
         pos={index}
+        color={color}
         // onClick={() => handleSquareClick(color, index)}
       >
         {sourceComp}
