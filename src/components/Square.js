@@ -10,8 +10,8 @@ const Div = styled.div`
   box-sizing: border-box;
 `;
 
-function Square({ children, size }) {
-  return <Div size={size}>{children}</Div>;
+function Square({ children, size, onClick}) {
+  return <Div size={size} onClick={onClick}>{children}</Div>;
 }
 
 export default Square;
