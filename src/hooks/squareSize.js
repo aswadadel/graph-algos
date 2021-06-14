@@ -5,8 +5,6 @@ function getSquareSize([resX, resY]) {
   const { innerWidth: width, innerHeight: height } = window;
   let sizeX = width / resX;
   let sizeY = height / resY;
-  console.log(sizeX, sizeY);
-  console.log(Math.min(sizeX, sizeY));
   return Math.min(sizeX, sizeY);
 }
 
@@ -15,18 +13,21 @@ export default function useSquareSize() {
   const [squareSize, setsquareSize] = useState(getSquareSize(resolution));
 
   useEffect(() => {
-    let handleResize = () => {};
-    const timeout = setTimeout(() => {
-      handleResize = () => {
-        setsquareSize(getSquareSize(resolution));
-      };
+    // let timeout = null;
+    // let handleResize = () => {
+    //   clearTimeout(timeout);
+    //   timeout = setTimeout(() => {
+    //     setsquareSize(getSquareSize(resolution));
+    //   }, 50);
+    // };
+    let handleResize = () => {
+      setsquareSize(getSquareSize(resolution));
+    };
 
-      window.addEventListener("resize", handleResize);
-    }, 100);
+    window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      clearTimeout(timeout);
     };
   }, [resolution]);
 

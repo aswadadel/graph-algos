@@ -1,13 +1,23 @@
 import React from "react";
 import styled from "styled-components";
+import { useDrag } from "react-dnd";
 
-const Span = styled.span`
+const Div = styled.div`
   font-size: 15px;
   color: black;
+  opacity: ${props => props.isDragging? 0.5: 1};
+  width: 100%;
+  height: 100%;
 `;
 
 function Source() {
-  return <Span>🕵️</Span>;
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "source",
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+  return <Div ref={drag} isDragging={isDragging}>🕵️</Div>;
 }
 
 export default Source;

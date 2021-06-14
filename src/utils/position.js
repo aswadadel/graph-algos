@@ -12,3 +12,6 @@ export function indexToXy(index, [resX, resY]) {
 export function getCanvasSize([resX, resY]) {
   return resX * resY;
 }
+export function canMove(color){
+  return color==='white'
+}

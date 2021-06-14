@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { indexToXy } from "../utils/position";
 
 export const canvasSlice = createSlice({
   name: "canvas",
@@ -20,7 +21,11 @@ export const canvasSlice = createSlice({
     },
     //moves the source position
     moveSource(state, { payload }) {
-      state.source = payload;
+      if (typeof payload === "object") {
+        state.source = payload;
+      } else{
+        state.source = indexToXy(payload, state.resolution)
+      }
     },
   },
 });
