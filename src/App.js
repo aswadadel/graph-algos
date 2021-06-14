@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import Board from "./components/Board";
+import { useEffect } from 'react'
+import { useDispatch} from 'react-redux'
+import { canvasActions } from './store/CanvasSlice'
 
 function App() {
+  const dispatch = useDispatch()
+
+  // dispatch(canvasActions.moveSource([30, 15]))
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     let pos = [Math.round(Math.random()*40), Math.round(Math.random()*20)]
+  //     dispatch(canvasActions.moveSource(pos))
+  //   }, 400);
+  //   return () => {
+  //     clearInterval(interval)
+  //   }
+  // }, [dispatch])
+
+  useEffect(() => {
+    dispatch(canvasActions.initialize())
+  }, [dispatch])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Board/>
+    </>
   );
 }
 
