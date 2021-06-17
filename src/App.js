@@ -1,18 +1,18 @@
 import Board from "./components/Board";
-import { useEffect } from 'react'
-import { useDispatch} from 'react-redux'
-import { canvasActions } from './store/CanvasSlice'
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { canvasActions } from "./store/CanvasSlice";
 
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(canvasActions.initialize())
-  }, [dispatch])
+    dispatch(canvasActions.initialize());
+  }, [dispatch]);
 
   return (
     <>
-      <Board/>
+      <Board />
     </>
   );
 }

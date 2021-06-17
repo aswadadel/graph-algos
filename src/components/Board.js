@@ -31,13 +31,6 @@ function Board() {
   const sourceIndex = xyToIndex(source, resolution);
   const targetIndex = xyToIndex(target, resolution);
 
-  // moves source to the square clicked
-  // const handleSquareClick = (color, index) => {
-  //   if (canMove(color)) {
-  //     let pos = indexToXy(index, resolution);
-  //     dispatch(canvasActions.moveSource(pos));
-  //   }
-  // };
 
   // ========= remove context menu ========
   // useEffect(() => {

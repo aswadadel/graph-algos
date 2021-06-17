@@ -55,6 +55,10 @@ function Square({ children, size, index }) {
     if(event.buttons === 1) dispatch(canvasActions.addWalls(index))
     else if(event.buttons === 2) dispatch(canvasActions.remWalls(index))
   }
+  const mouseClickHandler = (event) => {
+    if(event.button === 0) dispatch(canvasActions.addWalls(index))
+    else if(event.button === 2) dispatch(canvasActions.remWalls(index))
+  }
 
   return (
     <Div
@@ -62,6 +66,7 @@ function Square({ children, size, index }) {
       size={size}
       backgroundColor={getColor(data)}
       onMouseEnter={mouseEnterHandler}
+      onMouseDown={mouseClickHandler}
     >
       {children}
       {isOver && data !== Data.Obj && <Highlight />}
