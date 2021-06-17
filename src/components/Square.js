@@ -15,6 +15,7 @@ const Div = styled.div`
   display: inline-block;
   box-sizing: border-box;
   user-select: none;
+  transition: background-color .2s ;
 `;
 const Highlight = styled.div`
   position: absolute;
@@ -29,34 +30,41 @@ const Highlight = styled.div`
 
 function Square({ children, size, index }) {
   const dispatch = useDispatch();
-  const data = useSelector(state => state.canvas.canvas[index])
+  const data = useSelector((state) => state.canvas.canvas[index]);
+
   const dropFunc = (item) => {
-    if(data===Data.Obj) {
-      console.log(data)
-      return
-    }
+    if (data === Data.Obj) return;
+
     if (item.name === "source") dispatch(canvasActions.moveSource(index));
     else dispatch(canvasActions.moveTarget(index));
   };
-  // const canDropHandler = () => {
-  //   return data!==Data.Null
-  // };
+
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: "object",
-      // canDrop: canDropHandler,
       drop: dropFunc,
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
-        // canDrop: !!monitor.canDrop(),
       }),
     }),
     [index, data]
   );
+
+  const mouseEnterHandler = (event) => {
+    event.stopPropagation()
+    if(event.buttons === 1) dispatch(canvasActions.addWalls(index))
+    else if(event.buttons === 2) dispatch(canvasActions.remWalls(index))
+  }
+
   return (
-    <Div ref={drop} size={size} backgroundColor={getColor(data)}>
+    <Div
+      ref={drop}
+      size={size}
+      backgroundColor={getColor(data)}
+      onMouseEnter={mouseEnterHandler}
+    >
       {children}
-      {isOver && data === Data.White && <Highlight />}
+      {isOver && data !== Data.Obj && <Highlight />}
     </Div>
   );
 }

@@ -19,12 +19,12 @@ const Div = styled.div`
   margin: auto;
 `;
 
+
 function Board() {
   const resolution = useSelector((state) => state.canvas.resolution);
   const canvas = useSelector((state) => state.canvas.canvas);
   const source = useSelector((state) => state.canvas.source);
   const target = useSelector((state) => state.canvas.target);
-
 
   const size = useSquareSize();
 
@@ -39,16 +39,21 @@ function Board() {
   //   }
   // };
 
+  // ========= remove context menu ========
+  // useEffect(() => {
+  //   document.addEventListener("contextmenu", handleContextMenu);
+  //   return () => {
+  //     document.removeEventListener("contextmenu", handleContextMenu);
+  //   };
+  // }, []);
+
+  // ========= draw squares =========
   const squares = canvas.map((color, index) => {
-    let comp = null
-    if(index === sourceIndex) comp = <Source/>
-    else if(index === targetIndex) comp = <Target />
+    let comp = null;
+    if (index === sourceIndex) comp = <Source />;
+    else if (index === targetIndex) comp = <Target />;
     return (
-      <Square
-        key={index}
-        size={size}
-        index={index}
-      >
+      <Square key={index} size={size} index={index}>
         {comp}
       </Square>
     );
@@ -56,7 +61,11 @@ function Board() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <Div height={size * resolution[1]} width={size * resolution[0]}>
+      <Div
+        height={size * resolution[1]}
+        width={size * resolution[0]}
+        onContextMenu={(e) => e.preventDefault()}
+      >
         {squares}
       </Div>
     </DndProvider>

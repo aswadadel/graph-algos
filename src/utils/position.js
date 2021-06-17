@@ -26,6 +26,6 @@ export function getColor(data) {
     case 2:
       return "orange";
     default:
-      return null;
+      return 'white';
   }
 }
