@@ -12,6 +12,20 @@ export function indexToXy(index, [resX, resY]) {
 export function getCanvasSize([resX, resY]) {
   return resX * resY;
 }
-export function canMove(color){
-  return color==='white'
+
+export function compareXY(pos1, pos2) {
+  return pos1[0] === pos2[0] && pos1[1] === pos2[1];
+}
+
+export function getColor(data) {
+  switch (data) {
+    case 0:
+      return "white";
+    case 1:
+      return "black";
+    case 2:
+      return "orange";
+    default:
+      return null;
+  }
 }

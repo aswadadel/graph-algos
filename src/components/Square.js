@@ -1,15 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { canvasActions } from "../store/CanvasSlice";
+import { getColor } from "../utils/position";
+import { Data } from "../utils/constants";
 
 const Div = styled.div`
   position: relative;
   width: ${(props) => props.size}px;
   height: ${(props) => props.size}px;
   border: 1px solid grey;
-  background-color: white;
+  background-color: ${(props) => props.backgroundColor};
   display: inline-block;
   box-sizing: border-box;
   user-select: none;
@@ -25,25 +27,36 @@ const Highlight = styled.div`
   background-color: yellow;
 `;
 
-function Square({ children, size, pos, color }) {
+function Square({ children, size, index }) {
   const dispatch = useDispatch();
-  const dropFunc = () => {
-    color==='white' && dispatch(canvasActions.moveSource(pos));
+  const data = useSelector(state => state.canvas.canvas[index])
+  const dropFunc = (item) => {
+    if(data===Data.Obj) {
+      console.log(data)
+      return
+    }
+    if (item.name === "source") dispatch(canvasActions.moveSource(index));
+    else dispatch(canvasActions.moveTarget(index));
   };
+  // const canDropHandler = () => {
+  //   return data!==Data.Null
+  // };
   const [{ isOver }, drop] = useDrop(
     () => ({
-      accept: "source",
+      accept: "object",
+      // canDrop: canDropHandler,
       drop: dropFunc,
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
+        // canDrop: !!monitor.canDrop(),
       }),
     }),
-    [pos]
+    [index, data]
   );
   return (
-    <Div ref={drop} size={size}>
+    <Div ref={drop} size={size} backgroundColor={getColor(data)}>
       {children}
-      {isOver && color === "white" && <Highlight />}
+      {isOver && data === Data.White && <Highlight />}
     </Div>
   );
 }

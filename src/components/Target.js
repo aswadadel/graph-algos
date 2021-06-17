@@ -10,15 +10,15 @@ const Div = styled.div`
   height: 100%;
 `;
 
-function Source() {
+function Target() {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "object",
-		item: { name: 'source' },
+		item: { name: 'target' },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  return <Div ref={drag} isDragging={isDragging}>🕵️</Div>;
+  return <Div ref={drag} isDragging={isDragging}>🎯</Div>;
 }
 
-export default Source;
+export default Target;

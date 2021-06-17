@@ -6,9 +6,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import Square from "./Square";
 import Source from "./Source";
+import Target from "./Target";
 
 import useSquareSize from "../hooks/squareSize";
-// import { canvasActions } from "../store/CanvasSlice";
 import { xyToIndex } from "../utils/position";
 
 const Div = styled.div`
@@ -23,12 +23,13 @@ function Board() {
   const resolution = useSelector((state) => state.canvas.resolution);
   const canvas = useSelector((state) => state.canvas.canvas);
   const source = useSelector((state) => state.canvas.source);
+  const target = useSelector((state) => state.canvas.target);
 
-  // const dispatch = useDispatch();
 
   const size = useSquareSize();
 
   const sourceIndex = xyToIndex(source, resolution);
+  const targetIndex = xyToIndex(target, resolution);
 
   // moves source to the square clicked
   // const handleSquareClick = (color, index) => {
@@ -39,16 +40,16 @@ function Board() {
   // };
 
   const squares = canvas.map((color, index) => {
-    const sourceComp = index === sourceIndex ? <Source /> : null;
+    let comp = null
+    if(index === sourceIndex) comp = <Source/>
+    else if(index === targetIndex) comp = <Target />
     return (
       <Square
         key={index}
         size={size}
-        pos={index}
-        color={color}
-        // onClick={() => handleSquareClick(color, index)}
+        index={index}
       >
-        {sourceComp}
+        {comp}
       </Square>
     );
   });
