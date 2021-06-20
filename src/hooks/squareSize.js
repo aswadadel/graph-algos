@@ -5,7 +5,6 @@ function getSquareSize([resX, resY]) {
   const { innerWidth: width, innerHeight: height } = window;
   let sizeX = width / resX;
   let sizeY = height / resY;
-  console.log(width, height)
   return Math.min(sizeX, sizeY);
 }
 

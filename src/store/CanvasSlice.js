@@ -53,6 +53,11 @@ export const canvasSlice = createSlice({
       if (state.canvas[payload] === Data.Black)
         state.canvas[payload] = Data.White;
     },
+    setData(state, {payload}){
+      const [index, data] = payload
+      if(state.canvas[index] === Data.Obj) throw "Cannot mutate Obj slots using setData"
+      state.canvas[index] = data
+    }
   },
 });
 
