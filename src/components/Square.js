@@ -4,7 +4,7 @@ import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { canvasActions } from "../store/CanvasSlice";
 import { getColor } from "../utils/position";
-import { Data } from "../utils/constants";
+import { isObj } from "../utils/constants";
 
 const Div = styled.div`
   position: relative;
@@ -33,7 +33,8 @@ function Square({ children, size, index }) {
   const data = useSelector((state) => state.canvas.canvas[index]);
 
   const dropFunc = (item) => {
-    if (data === Data.Obj) return;
+    
+    if (isObj(data)) return;
 
     if (item.name === "source") dispatch(canvasActions.moveSource(index));
     else dispatch(canvasActions.moveTarget(index));
@@ -69,7 +70,7 @@ function Square({ children, size, index }) {
       onMouseDown={mouseClickHandler}
     >
       {children}
-      {isOver && data !== Data.Obj && <Highlight />}
+      {isOver && !isObj(data) && <Highlight />}
     </Div>
   );
 }

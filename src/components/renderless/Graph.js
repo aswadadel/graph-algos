@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { canvasActions } from "../../store/CanvasSlice";
-import { Data } from "../../utils/constants";
+// import { Data } from "../../utils/constants";
 import Node from "../../utils/node";
+
+// function bfs(nodes, sourceIndex){
+// 	let source = nodes[sourceIndex]
+
+// }
 
 let initial = true;
 function Graph() {

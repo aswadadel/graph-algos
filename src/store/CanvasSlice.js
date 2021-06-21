@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { indexToXy, xyToIndex } from "../utils/position";
-import { Data } from "../utils/constants";
+import { Data, isObj } from "../utils/constants";
 
 export const canvasSlice = createSlice({
   name: "canvas",
@@ -20,8 +20,8 @@ export const canvasSlice = createSlice({
         state.canvas.push(Data.White);
       }
       state.canvasChanged = true;
-      state.canvas[0] = Data.Obj;
-      state.canvas[size - 1] = Data.Obj;
+      state.canvas[0] = Data.Source;
+      state.canvas[size - 1] = Data.Target;
       state.source = [0, 0];
       state.target = [state.resolution[0] - 1, state.resolution[1] - 1];
     },
@@ -29,10 +29,10 @@ export const canvasSlice = createSlice({
     moveSource(state, { payload }) {
       state.canvas[xyToIndex(state.source, state.resolution)] = Data.White;
       if (typeof payload === "object") {
-        state.canvas[xyToIndex(payload)] = Data.Obj;
+        state.canvas[xyToIndex(payload)] = Data.Source;
         state.source = payload;
       } else {
-        state.canvas[payload] = Data.Obj;
+        state.canvas[payload] = Data.Source;
         state.source = indexToXy(payload, state.resolution);
       }
       state.canvasChanged = true;
@@ -41,10 +41,10 @@ export const canvasSlice = createSlice({
     moveTarget(state, { payload }) {
       state.canvas[xyToIndex(state.target, state.resolution)] = Data.White;
       if (typeof payload === "object") {
-        state.canvas[xyToIndex(payload)] = Data.Obj;
+        state.canvas[xyToIndex(payload)] = Data.Target;
         state.target = payload;
       } else {
-        state.canvas[payload] = Data.Obj;
+        state.canvas[payload] = Data.Target;
         state.target = indexToXy(payload, state.resolution);
       }
       state.canvasChanged = true;
@@ -63,7 +63,7 @@ export const canvasSlice = createSlice({
     },
     setData(state, { payload }) {
       const [index, data] = payload;
-      if (state.canvas[index] === Data.Obj)
+      if (isObj(state.canvas[index]))
         throw new Error("Cannot mutate Obj slots using setData");
       state.canvas[index] = data;
     },
