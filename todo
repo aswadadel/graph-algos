@@ -1,4 +1,3 @@
-update nodes list ONLY when walls are added (currently updates on canvas changes)
-move the code in Tester.js to a new component
-
+implement bfs
+block user input when algo is running
 

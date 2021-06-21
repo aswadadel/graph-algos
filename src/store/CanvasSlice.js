@@ -7,6 +7,7 @@ export const canvasSlice = createSlice({
   initialState: {
     resolution: [40, 20],
     canvas: [],
+    canvasChanged: false,
     source: [0, 0],
     target: [0, 1],
   },
@@ -18,6 +19,7 @@ export const canvasSlice = createSlice({
       for (let i = 0; i < size; i++) {
         state.canvas.push(Data.White);
       }
+      state.canvasChanged = true;
       state.canvas[0] = Data.Obj;
       state.canvas[size - 1] = Data.Obj;
       state.source = [0, 0];
@@ -33,6 +35,7 @@ export const canvasSlice = createSlice({
         state.canvas[payload] = Data.Obj;
         state.source = indexToXy(payload, state.resolution);
       }
+      state.canvasChanged = true;
     },
     // moves the target position
     moveTarget(state, { payload }) {
@@ -44,19 +47,28 @@ export const canvasSlice = createSlice({
         state.canvas[payload] = Data.Obj;
         state.target = indexToXy(payload, state.resolution);
       }
+      state.canvasChanged = true;
     },
     addWalls(state, { payload }) {
-      if (state.canvas[payload] === Data.White)
+      if (state.canvas[payload] === Data.White) {
         state.canvas[payload] = Data.Black;
+        state.canvasChanged = true;
+      }
     },
     remWalls(state, { payload }) {
-      if (state.canvas[payload] === Data.Black)
+      if (state.canvas[payload] === Data.Black) {
         state.canvas[payload] = Data.White;
+        state.canvasChanged = true;
+      }
     },
-    setData(state, {payload}){
-      const [index, data] = payload
-      if(state.canvas[index] === Data.Obj) throw "Cannot mutate Obj slots using setData"
-      state.canvas[index] = data
+    setData(state, { payload }) {
+      const [index, data] = payload;
+      if (state.canvas[index] === Data.Obj)
+        throw new Error("Cannot mutate Obj slots using setData");
+      state.canvas[index] = data;
+    },
+    resetCanvasChanged(state){
+      state.canvasChanged = false
     }
   },
 });

@@ -1,7 +1,7 @@
 import Board from "./components/Board";
 import { useDispatch } from "react-redux";
 import { canvasActions } from "./store/CanvasSlice";
-import Index from "./utils/testers/Tester";
+import Graph from "./components/renderless/Graph";
 
 function App() {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <Index />
+      <Graph />
       <Board />
     </>
   );

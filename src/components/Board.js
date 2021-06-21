@@ -31,15 +31,6 @@ function Board() {
   const sourceIndex = xyToIndex(source, resolution);
   const targetIndex = xyToIndex(target, resolution);
 
-
-  // ========= remove context menu ========
-  // useEffect(() => {
-  //   document.addEventListener("contextmenu", handleContextMenu);
-  //   return () => {
-  //     document.removeEventListener("contextmenu", handleContextMenu);
-  //   };
-  // }, []);
-
   // ========= draw squares =========
   const squares = canvas.map((color, index) => {
     let comp = null;
