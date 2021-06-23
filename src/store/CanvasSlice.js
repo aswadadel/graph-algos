@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { indexToXy, xyToIndex } from "../utils/position";
-import { Data, isObj } from "../utils/constants";
+import { Data } from "../utils/constants";
 
 export const canvasSlice = createSlice({
   name: "canvas",
@@ -63,13 +63,13 @@ export const canvasSlice = createSlice({
     },
     setData(state, { payload }) {
       const [index, data] = payload;
-      if (isObj(state.canvas[index]))
-        throw new Error("Cannot mutate Obj slots using setData");
+      // if (isObj(state.canvas[index]))
+      //   throw new Error("Cannot mutate Obj slots using setData");
       state.canvas[index] = data;
     },
-    resetCanvasChanged(state){
-      state.canvasChanged = false
-    }
+    resetCanvasChanged(state) {
+      state.canvasChanged = false;
+    },
   },
 });
 

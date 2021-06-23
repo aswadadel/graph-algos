@@ -1,48 +1,66 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { canvasActions } from "../../store/CanvasSlice";
-// import { Data } from "../../utils/constants";
 import Node from "../../utils/node";
-
-// function bfs(nodes, sourceIndex){
-// 	let source = nodes[sourceIndex]
-
-// }
+import bfs from '../../algorithms/bfs'
+import { xyToIndex } from "../../utils/position";
 
 let initial = true;
+let debounce = null;
+
 function Graph() {
-	const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const canvas = useSelector((state) => state.canvas.canvas);
-	const canvasChanged = useSelector(state=> state.canvas.canvasChanged)
+  const canvasChanged = useSelector((state) => state.canvas.canvasChanged);
+  const sourceXy = useSelector((state)=>state.canvas.source)
   const resolution = useSelector((state) => state.canvas.resolution);
-  const [nodes, setNodes] = useState(() => {
+  const [nodes] = useState(() => {
     let _nodes = [];
     for (let i = 0; i < canvas.length; i++) {
       _nodes.push(new Node(i, canvas[i]));
     }
+    dispatch(canvasActions.resetCanvasChanged());
     return _nodes;
   });
 
-	// ====== updates when walls are added ====== 
+  // ====== updates when walls are added ======
   useEffect(() => {
     if (initial) {
       initial = false;
       return;
     }
-    setNodes(() => {
-      let _nodes = [];
-      for (let i = 0; i < canvas.length; i++) {
-        _nodes.push(new Node(i, canvas[i]));
-      }
-      return _nodes;
-    });
-		dispatch(canvasActions.resetCanvasChanged)
-  }, [canvasChanged]);
+    if (canvasChanged === false) {
+      return;
+    }
+    clearTimeout(debounce);
 
-	// ==== updates Node's resolution when it changes
+    debounce = setTimeout(() => {
+      for (let i = 0; i < canvas.length; i++) {
+        nodes[i]._color = canvas[i];
+      }
+    }, 500);
+    dispatch(canvasActions.resetCanvasChanged());
+  }, [canvasChanged, canvas, dispatch, nodes]);
+
+  // ==== updates Node's resolution when it changes
   useEffect(() => {
     Node.resolution = resolution;
   }, [resolution]);
+
+  const keyPressHandler = useCallback(
+    (e) => {
+      if (e.key !== " ") return;
+      bfs(nodes, xyToIndex(sourceXy, resolution));
+    },
+    [nodes, sourceXy, resolution]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", keyPressHandler);
+    return () => {
+      document.removeEventListener("keydown", keyPressHandler);
+    };
+  }, [keyPressHandler]);
 
   return <></>;
 }

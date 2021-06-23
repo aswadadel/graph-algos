@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { canvasActions } from "../store/CanvasSlice";
-import { getColor } from "../utils/position";
-import { isObj } from "../utils/constants";
+import { getColor, isObj } from "../utils/constants";
 
 const Div = styled.div`
   position: relative;
